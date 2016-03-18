@@ -3,6 +3,7 @@ package chessdesktop;
 import Chess.ChessPiece;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -36,19 +37,29 @@ public class FXMLDocumentController implements Initializable {
 	}
 	
 	@FXML
-	private void handleSaveButtonAction(ActionEvent event) {
+	private void handleSaveButtonAction(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Game");
 		File file = fileChooser.showSaveDialog(null);
 		if (file != null) {
 			Charset charset = Charset.forName("US-ASCII");
-			String s = "hello";
-			try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), charset)) {
-				writer.write(s, 0, s.length());
-			} 
-			catch (IOException x) {
-				System.err.format("IOException: %s%n", x);
-			}
+			String s = "";
+                        /*for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+
+                                if (board.getPieceAt(canvas, i, j) != null) {
+                                    s = i + " " + j + " " + 
+                                        board.getPieceAt(canvas, i, j).getColor() + " " +
+                                        board.getPieceAt(canvas, i, j).getType() + " ";
+                                }
+                            }
+                        }*/
+                        try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), charset)) {
+                                writer.write(s, 0, s.length());
+                        }
+                        catch (IOException x) {
+                                System.err.format("IOException: %s%n", x);
+                        }
 		}
 	}
 
@@ -61,7 +72,7 @@ public class FXMLDocumentController implements Initializable {
 		if (selectedFile != null) {
 			try {
 				Scanner in = new Scanner(selectedFile);
-				
+                                
 			} catch (IOException ex) {
 				Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 			}
