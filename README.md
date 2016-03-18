@@ -1,2 +1,2 @@
 # ed2
-Entornos de Desarrollo
+Entornos de Desarrollo Privado
