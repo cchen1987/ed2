@@ -15,7 +15,8 @@ public class ChessBoardRenderer {
 	
 	private final Chess.ChessBoard board = new Chess.ChessBoardImplementation();
 	private Chess.ChessPiece movingPiece;
-	
+	private Chess.ChessPiece.Color currentColor = ChessPiece.Color.WHITE;
+        
 	static private void drawCrown(GraphicsContext aContext, double minX, double minY, double width, double height) {
 		double maxX = minX + width;
 		double maxY = minY + height;
@@ -36,18 +37,18 @@ public class ChessBoardRenderer {
             GraphicsContext gc = canvas.getGraphicsContext2D();
             Bounds boardBounds = getBoardBounds(canvas);
             PiecePosition[] p = piece.getAvailablePositions(board);
-            if (containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE)) {
+            if (movingPiece.getColor() == currentColor) {
                 for (int i = 0; i < p.length; i++) {
-                gc.setFill(Color.BURLYWOOD);
-                gc.fillRect(boardBounds.getMinX() + p[i].getColumn() * width, boardBounds.getMinY() + p[i].getRow() * height, 
-                    boardBounds.getMinX() * 1.1 + (p[i].getColumn() + 1), boardBounds.getMinY() * 0.6 + (p[i].getRow() + 1));
+                    gc.setFill(Color.BURLYWOOD);
+                    gc.fillRect(boardBounds.getMinX() + p[i].getColumn() * width, boardBounds.getMinY() + p[i].getRow() * height, 
+                        boardBounds.getMinX() * 1.1 + (p[i].getColumn() + 1), boardBounds.getMinY() * 0.6 + (p[i].getRow() + 1));
                 }
-            }
+            } // un pequeño fallo, al seleccionar las blancas, tapan las fichas negras
         }
         
 	void drawPiece(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-                if (piece == movingPiece) {
+                if (piece == movingPiece && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE)) {
                         drawAvailablePositions(canvas, piece, minX, minY, width, height);
                         gc.setFill(Color.GREY);
                 }
@@ -155,8 +156,8 @@ public class ChessBoardRenderer {
 	
 	ChessPiece getPieceAt(Canvas canvas, double x, double y) {
 		Bounds boardBounds = getBoardBounds(canvas);
-		double width = boardBounds.getWidth() / 8;
-		double height = boardBounds.getHeight() / 8;
+		double width = boardBounds.getWidth() / 8f;
+		double height = boardBounds.getHeight() / 8f;
 
 		for (ChessPiece piece : board.getPieces()) {
 			PiecePosition position = board.getPiecePosition(piece);
@@ -186,6 +187,7 @@ public class ChessBoardRenderer {
 	boolean movePieceTo(Canvas canvas, double x, double y) {
 		if (movingPiece == null)
 			return false;
+                
 		Bounds boardBounds = getBoardBounds(canvas);
 		if (boardBounds.contains(x, y) && containsKing(ChessPiece.Color.WHITE) &&
                             containsKing(ChessPiece.Color.WHITE)) {
@@ -194,8 +196,10 @@ public class ChessBoardRenderer {
 			int column = (int)((x - boardBounds.getMinX()) / width);
 			int row = (int)((y - boardBounds.getMinY()) / height);
 			PiecePosition position = new PiecePosition(column, row);
-			if (movingPiece.canMoveToPosition(position, board))
+			if (movingPiece.canMoveToPosition(position, board) && movingPiece.getColor() == currentColor) {
+                            currentColor = currentColor == ChessPiece.Color.WHITE ? ChessPiece.Color.BLACK : ChessPiece.Color.WHITE;
 				return board.movePieceTo(movingPiece, position);
+                        }
 		}
 		return false;
 	}
