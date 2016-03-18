@@ -1,8 +1,5 @@
 package Chess;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChessPieceImplementation implements ChessPiece {
     Color color;
     Type type;
