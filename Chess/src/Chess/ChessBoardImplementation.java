@@ -1,7 +1,14 @@
 package Chess;
 
+import Chess.ChessPiece.Type;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 
 public class ChessBoardImplementation implements ChessBoard {
 
@@ -27,8 +34,8 @@ public class ChessBoardImplementation implements ChessBoard {
 		pieces[getPieceIndex(2, 7)] = new ChessPieceImplementation(ChessPiece.Color.BLACK, ChessPiece.Type.BISHOP);
 		pieces[getPieceIndex(5, 7)] = new ChessPieceImplementation(ChessPiece.Color.BLACK, ChessPiece.Type.BISHOP);
 
-		pieces[getPieceIndex(3, 0)] = new ChessPieceImplementation(ChessPiece.Color.WHITE, ChessPiece.Type.KING);
-		pieces[getPieceIndex(4, 0)] = new ChessPieceImplementation(ChessPiece.Color.WHITE, ChessPiece.Type.QUEEN);
+		pieces[getPieceIndex(4, 0)] = new ChessPieceImplementation(ChessPiece.Color.WHITE, ChessPiece.Type.KING);
+		pieces[getPieceIndex(3, 0)] = new ChessPieceImplementation(ChessPiece.Color.WHITE, ChessPiece.Type.QUEEN);
 		pieces[getPieceIndex(3, 7)] = new ChessPieceImplementation(ChessPiece.Color.BLACK, ChessPiece.Type.QUEEN);
 		pieces[getPieceIndex(4, 7)] = new ChessPieceImplementation(ChessPiece.Color.BLACK, ChessPiece.Type.KING);
 	}
@@ -110,12 +117,44 @@ public class ChessBoardImplementation implements ChessBoard {
 
 	@Override
 	public boolean saveToFile(File location) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            /*try {
+                FileWriter file = new FileWriter(location);
+                
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        file.write(getPiecePosition(pieces[getPieceIndex(i, j)]).getColumn() + " " + 
+                                getPiecePosition(pieces[getPieceIndex(i, j)]).getRow()+ " " + 
+                                pieces[getPieceIndex(i, j)].getColor() + " " +
+                                pieces[getPieceIndex(i, j)].getType());
+                    }
+                }
+                return true;
+            } 
+            catch (IOException ex) {
+                System.err.format("IOException: %s%n", ex);
+            }*/
+            return false;
 	}
 
 	@Override
 	public boolean loadFromFile(File location) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            /*try {
+                Scanner r = new Scanner(location);
+                for (int i = 0; i < 64; i++) {
+                    int col = r.nextInt();
+                    int row = r.nextInt();
+                    String color = r.next();
+                    ChessPiece.Color c = ChessPiece.Color.valueOf(color);
+                    String type = r.next();
+                    ChessPiece.Type t = ChessPiece.Type.valueOf(type);
+                    pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
+                }
+                return true;
+            } 
+            catch (FileNotFoundException ex) {
+                System.err.format("IOException: %s%n", ex);
+            }*/
+            return false;
 	}
 	
 }

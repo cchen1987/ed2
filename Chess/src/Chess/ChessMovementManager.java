@@ -18,13 +18,14 @@ public class ChessMovementManager {
 
 		auxPosition = position.getDisplacedPiece(-1, direction);
 		piece = aBoard.getPieceAt(auxPosition);
+                if(piece!= null && piece.getColor() != aPiece.getColor())
+			result.addPosition(auxPosition, 0, 0);
 		
 		return result.getResult();
 	}
 
 	static void generateStepMovement(ChessPiece aPiece, ChessBoard aBoard, ChessMovementHelper aResult, 
-			PiecePosition aPosition, int columnIncrement, int rowIncrement, 
-			int maxTimes) {
+			PiecePosition aPosition, int columnIncrement, int rowIncrement, int maxTimes) {
 
 		PiecePosition auxPosition;
 		int times = maxTimes;
@@ -77,9 +78,10 @@ public class ChessMovementManager {
 		generateStepMovement(aPiece, aBoard, result, position, -1, 1, 8);
 		generateStepMovement(aPiece, aBoard, result, position, 1, -1, 8);
 		generateStepMovement(aPiece, aBoard, result, position, 1, 0, 8);
-		generateStepMovement(aPiece, aBoard, result, position, -1, 0, 1);
+		generateStepMovement(aPiece, aBoard, result, position, -1, 0, 8);
 		generateStepMovement(aPiece, aBoard, result, position, 0, 1, 8);
 		generateStepMovement(aPiece, aBoard, result, position, 0, -1, 8);
+                generateStepMovement(aPiece, aBoard, result, position, -1, -1, 8);
 		
 		return result.getResult();
 	}
@@ -88,7 +90,7 @@ public class ChessMovementManager {
 		PiecePosition position = aBoard.getPiecePosition(aPiece);
 		ChessMovementHelper result = new ChessMovementHelper();
 
-		generateStepMovement(aPiece, aBoard, result, position, 1, 2, 1);
+		generateStepMovement(aPiece, aBoard, result, position, 1, -2, 1);
 		generateStepMovement(aPiece, aBoard, result, position, 1, 2, 1);
 		generateStepMovement(aPiece, aBoard, result, position, -1, 2, 1);
 		generateStepMovement(aPiece, aBoard, result, position, -1, -2, 1);
