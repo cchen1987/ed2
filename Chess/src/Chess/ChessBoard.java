@@ -22,7 +22,7 @@ public interface ChessBoard {
 	
 	/**
 	 * Esta función devuelve la pieza que hay en una determinada posición en el
-	 * yablero.
+	 * tablero.
 	 * @param position The piece position
 	 * @return A piece
 	 */

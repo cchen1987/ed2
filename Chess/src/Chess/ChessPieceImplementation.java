@@ -20,7 +20,7 @@ public class ChessPieceImplementation implements ChessPiece {
     public Type getType() {
         return type;
     }
-
+    
     @Override
     public void notifyMoved() {
         moved = true;

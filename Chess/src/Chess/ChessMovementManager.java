@@ -1,14 +1,16 @@
 package Chess;
 
+import Chess.ChessPiece.Color;
+
 public class ChessMovementManager {
 	
 	static PiecePosition[] getAvailablePositionsOfPawn(ChessPiece aPiece, ChessBoard aBoard) {
 		PiecePosition auxPosition, position = aBoard.getPiecePosition(aPiece);
 		ChessMovementHelper result = new ChessMovementHelper();
 		int direction = aPiece.getColor() == ChessPiece.Color.WHITE ? 1 : -1;
-
+                auxPosition = position.getDisplacedPiece(0, direction);
 		result.addPositionWithDisplacementIfAvaiable(position, aBoard, 0, direction);
-		if (!aPiece.wasMoved())
+		if (!aPiece.wasMoved() && aBoard.getPieceAt(auxPosition) == null)
 			result.addPositionWithDisplacementIfAvaiable(position, aBoard, 0, direction * 2);
 		ChessPiece piece;
 		auxPosition = position.getDisplacedPiece(1, direction);
