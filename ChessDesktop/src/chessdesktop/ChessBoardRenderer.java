@@ -33,7 +33,11 @@ public class ChessBoardRenderer {
 		aContext.fillPolygon(x, y, 3);
 	}
 
-	void drawAvailablePositions(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
+        ChessPiece.Color getCurrentColor() {
+            return currentColor;
+        }
+        
+	void drawAvailablePositions(Canvas canvas, Chess.ChessPiece piece, double width, double height) {
             GraphicsContext gc = canvas.getGraphicsContext2D();
             Bounds boardBounds = getBoardBounds(canvas);
             PiecePosition[] p = piece.getAvailablePositions(board);
@@ -49,7 +53,7 @@ public class ChessBoardRenderer {
 	void drawPiece(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
                 if (piece == movingPiece && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE)) {
-                        drawAvailablePositions(canvas, piece, minX, minY, width, height);
+                        drawAvailablePositions(canvas, piece, width, height);
                         gc.setFill(Color.GREY);
                 }
                 else if (piece.getColor() == Chess.ChessPiece.Color.BLACK)
@@ -115,6 +119,11 @@ public class ChessBoardRenderer {
 		PiecePosition position = board.getPiecePosition(piece);
 		int c = position.getColumn();
 		int r = position.getRow();
+                /*Chess.ChessPiece aPiece = new ChessPieceImplementation(movingPiece.getColor(), ChessPiece.Type.QUEEN);
+                PiecePosition position2 = board.getPiecePosition(movingPiece);
+                if (movingPiece.getType() == Chess.ChessPiece.Type.PAWN && (position2.getRow() == 0 || position2.getRow() == 7)) {
+                    setMovingPiece(aPiece);
+                }*/
 		double width = boardBounds.getWidth() / 8;
 		double height = boardBounds.getHeight() / 8;
 		drawPiece(canvas, piece, boardBounds.getMinX() + c * width, 
@@ -141,7 +150,9 @@ public class ChessBoardRenderer {
 						boardBounds.getMinX() + (i + 1) * width, boardBounds.getMinY() + (j + 1) * height);
 			}
 		}
-		
+                
+		// drawAvailablePositions(canvas, movingPiece, width, height);
+                
 		for (ChessPiece piece : board.getPieces())
 			drawPiece(canvas, boardBounds, piece);
                 
@@ -156,8 +167,8 @@ public class ChessBoardRenderer {
 	
 	ChessPiece getPieceAt(Canvas canvas, double x, double y) {
 		Bounds boardBounds = getBoardBounds(canvas);
-		double width = boardBounds.getWidth() / 8f;
-		double height = boardBounds.getHeight() / 8f;
+		double width = boardBounds.getWidth() / 8;
+		double height = boardBounds.getHeight() / 8;
 
 		for (ChessPiece piece : board.getPieces()) {
 			PiecePosition position = board.getPiecePosition(piece);
