@@ -3,9 +3,7 @@ package chessdesktop;
 import Chess.ChessPiece;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -16,7 +14,6 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -45,25 +42,11 @@ public class FXMLDocumentController implements Initializable {
 		File file = fileChooser.showSaveDialog(null);
 		if (file != null) {
 			Charset charset = Charset.forName("US-ASCII");
-			
                         try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), charset)) {
-                            Bounds boardBounds = board.getBoardBounds(canvas);
-                            double width = boardBounds.getWidth() / 8;
-                            double height = boardBounds.getHeight() / 8;
-                            String s = "currentColor " + board.getCurrentColor() + "\n";
+                            String s = board.getCurrentColor() + "\n";
                             writer.write(s, 0, s.length());
-                            for (int i = 1; i <= 8; i++) {
-                                for (int j = 1; j <= 8; j++) {
-                                    if (board.getPieceAt(canvas, boardBounds.getMinX() + j * width, boardBounds.getMinY() + i * height) != null
-                                            && i != 6) {
-                                       s = "" + (boardBounds.getMinX() + j * width) + " " + (boardBounds.getMinY() + i * height) + " " + 
-                                            board.getPieceAt(canvas, boardBounds.getMinX() + j * width, boardBounds.getMinY() + i * height).getColor() + " " +
-                                            board.getPieceAt(canvas, boardBounds.getMinX() + j * width, boardBounds.getMinY() + i * height).getType() + " " +
-                                            board.getPieceAt(canvas, boardBounds.getMinX() + j * width, boardBounds.getMinY() + i * height).wasMoved() + "\n";
-                                        writer.write(s, 0, s.length());
-                                    }
-                                }
-                            }
+                            writer.close();
+                            board.getBoard().saveToFile(file);
                         }
                         catch (IOException x) {
                                 System.err.format("IOException: %s%n", x);
@@ -80,7 +63,8 @@ public class FXMLDocumentController implements Initializable {
 		if (selectedFile != null) {
 			try {
 				Scanner in = new Scanner(selectedFile);
-                                
+                                board.setCurrentColor(Chess.ChessPiece.Color.valueOf(in.next()));
+                                board.getBoard().loadFromFile(selectedFile);
 			} catch (IOException ex) {
 				Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 			}
