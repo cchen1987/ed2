@@ -127,20 +127,18 @@ public class ChessBoardImplementation implements ChessBoard {
         
 	@Override
 	public boolean saveToFile(File location) {
-            try {
-                FileWriter file = new FileWriter(location, true);
+            try (FileWriter file = new FileWriter(location, true)) {
                 file.write(getPieceCount() + "\n");
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (pieces[getPieceIndex(j, i)] != null) {
-                            file.write(j + " " + i+ " " + 
-                                pieces[getPieceIndex(j, i)].getColor() + " " +
-                                pieces[getPieceIndex(j, i)].getType() + " " +
-                                pieces[getPieceIndex(j, i)].wasMoved() + "\n");
+                            file.write(j + " " + i+ " " +
+                                    pieces[getPieceIndex(j, i)].getColor() + " " +
+                                    pieces[getPieceIndex(j, i)].getType() + " " +
+                                    pieces[getPieceIndex(j, i)].wasMoved() + "\n");
                         }
                     }
                 }
-                file.close();
                 return true;
             } 
             catch (IOException ex) {
