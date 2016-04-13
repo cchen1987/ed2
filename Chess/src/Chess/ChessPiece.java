@@ -17,7 +17,7 @@ public interface ChessPiece {
     Color getColor();
 	
 	/**
-	 * Esta función devuelve el color de la pieza
+	 * Esta función devuelve el tipo de la pieza
 	 * @return 
 	 */
     Type getType();
