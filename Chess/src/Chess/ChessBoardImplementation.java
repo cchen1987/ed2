@@ -1,14 +1,10 @@
 package Chess;
 
-import Chess.ChessPiece.Type;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.paint.Color;
 
 public class ChessBoardImplementation implements ChessBoard {
 
@@ -114,22 +110,33 @@ public class ChessBoardImplementation implements ChessBoard {
 				return true;
 		return false;
 	}
-
+        
+        public int getPieceCount() {
+            int count = 0;
+            for (int row = 0; row < 8; row++)
+                for (int column = 0; column < 8; column++) {
+                    if (pieces[getPieceIndex(column, row)] != null)
+                        count++;
+                }
+            return count;
+        }
+        
 	@Override
 	public boolean saveToFile(File location) {
             try {
-                FileWriter file = new FileWriter(location);
-                
+                FileWriter file = new FileWriter(location, true);
+                file.write(getPieceCount() + "\n");
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        if (pieces[getPieceIndex(i, j)] != null)
-                            file.write(getPiecePosition(pieces[getPieceIndex(i, j)]).getColumn() + " " + 
-                                getPiecePosition(pieces[getPieceIndex(i, j)]).getRow()+ " " + 
-                                pieces[getPieceIndex(i, j)].getColor() + " " +
-                                pieces[getPieceIndex(i, j)].getType() + " " +
-                                pieces[getPieceIndex(i, j)].wasMoved());
+                        if (pieces[getPieceIndex(j, i)] != null) {
+                            file.write(j + " " + i+ " " + 
+                                pieces[getPieceIndex(j, i)].getColor() + " " +
+                                pieces[getPieceIndex(j, i)].getType() + " " +
+                                pieces[getPieceIndex(j, i)].wasMoved() + "\n");
+                        }
                     }
                 }
+                file.close();
                 return true;
             } 
             catch (IOException ex) {
@@ -141,17 +148,24 @@ public class ChessBoardImplementation implements ChessBoard {
 	@Override
 	public boolean loadFromFile(File location) {
             try {
+                for (int row = 0; row < 8; row++)
+                    for (int column = 0; column < 8; column++) {
+                        pieces[getPieceIndex(column, row)] = null;
+                    }
                 Scanner r = new Scanner(location);
-                for (int i = 0; i < 64; i++) {
-                    int col = r.nextInt();
-                    int row = r.nextInt();
-                    String color = r.next();
-                    ChessPiece.Color c = ChessPiece.Color.valueOf(color);
-                    String type = r.next();
-                    ChessPiece.Type t = ChessPiece.Type.valueOf(type);
+                r.next();
+                int pieceCount = r.nextInt();
+                String text;
+                for (int i = 0; i < pieceCount; i++) {
+                    text = r.next();
+                    int col = Integer.parseInt(text);
+                    text = r.next();
+                    int row = Integer.parseInt(text);
+                    ChessPiece.Color c = ChessPiece.Color.valueOf(r.next());
+                    ChessPiece.Type t = ChessPiece.Type.valueOf(r.next());
                     pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
                     String moved = r.next();
-                    if (moved == "true")
+                    if (moved.equals("true"))
                         pieces[getPieceIndex(col, row)].notifyMoved();
                 }
                 return true;
