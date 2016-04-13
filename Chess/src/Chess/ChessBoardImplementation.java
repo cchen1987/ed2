@@ -117,28 +117,30 @@ public class ChessBoardImplementation implements ChessBoard {
 
 	@Override
 	public boolean saveToFile(File location) {
-            /*try {
+            try {
                 FileWriter file = new FileWriter(location);
                 
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        file.write(getPiecePosition(pieces[getPieceIndex(i, j)]).getColumn() + " " + 
+                        if (pieces[getPieceIndex(i, j)] != null)
+                            file.write(getPiecePosition(pieces[getPieceIndex(i, j)]).getColumn() + " " + 
                                 getPiecePosition(pieces[getPieceIndex(i, j)]).getRow()+ " " + 
                                 pieces[getPieceIndex(i, j)].getColor() + " " +
-                                pieces[getPieceIndex(i, j)].getType());
+                                pieces[getPieceIndex(i, j)].getType() + " " +
+                                pieces[getPieceIndex(i, j)].wasMoved());
                     }
                 }
                 return true;
             } 
             catch (IOException ex) {
                 System.err.format("IOException: %s%n", ex);
-            }*/
+            }
             return false;
 	}
 
 	@Override
 	public boolean loadFromFile(File location) {
-            /*try {
+            try {
                 Scanner r = new Scanner(location);
                 for (int i = 0; i < 64; i++) {
                     int col = r.nextInt();
@@ -148,12 +150,15 @@ public class ChessBoardImplementation implements ChessBoard {
                     String type = r.next();
                     ChessPiece.Type t = ChessPiece.Type.valueOf(type);
                     pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
+                    String moved = r.next();
+                    if (moved == "true")
+                        pieces[getPieceIndex(col, row)].notifyMoved();
                 }
                 return true;
             } 
             catch (FileNotFoundException ex) {
                 System.err.format("IOException: %s%n", ex);
-            }*/
+            }
             return false;
 	}
 	
