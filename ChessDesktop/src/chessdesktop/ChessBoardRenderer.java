@@ -54,7 +54,6 @@ public class ChessBoardRenderer {
 	void drawPiece(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
                 if (piece == movingPiece && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE)) {
-                        drawAvailablePositions(canvas, piece, width, height);
                         gc.setFill(Color.GREY);
                 }
                 else if (piece.getColor() == Chess.ChessPiece.Color.BLACK)
@@ -152,7 +151,8 @@ public class ChessBoardRenderer {
 			}
 		}
                 
-		// drawAvailablePositions(canvas, movingPiece, width, height);
+                if (movingPiece != null && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE))
+                    drawAvailablePositions(canvas, movingPiece, width, height);
                 
 		for (ChessPiece piece : board.getPieces())
 			drawPiece(canvas, boardBounds, piece);
