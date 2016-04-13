@@ -47,7 +47,6 @@ public class FXMLDocumentController implements Initializable {
 			Charset charset = Charset.forName("US-ASCII");
 			
                         try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), charset)) {
-                        //try (PrintWriter writer = new PrintWriter(file)) {
                             Bounds boardBounds = board.getBoardBounds(canvas);
                             double width = boardBounds.getWidth() / 8;
                             double height = boardBounds.getHeight() / 8;
@@ -55,8 +54,6 @@ public class FXMLDocumentController implements Initializable {
                             writer.write(s, 0, s.length());
                             for (int i = 1; i <= 8; i++) {
                                 for (int j = 1; j <= 8; j++) {
-                                    //String s = "a";
-                                    //writer.write(s, 0, s.length());
                                     if (board.getPieceAt(canvas, boardBounds.getMinX() + j * width, boardBounds.getMinY() + i * height) != null
                                             && i != 6) {
                                        s = "" + (boardBounds.getMinX() + j * width) + " " + (boardBounds.getMinY() + i * height) + " " + 
