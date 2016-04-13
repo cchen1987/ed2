@@ -98,6 +98,10 @@ public class ChessBoardImplementation implements ChessBoard {
 			pieces[oldIndex] = null;
 			pieces[newIndex] = Piece;
 			Piece.notifyMoved();
+                        if (pieces[newIndex].getType() == ChessPiece.Type.PAWN &&
+                                (Position.getRow() == 0 || Position.getRow() == 7)) {
+                            pieces[newIndex] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.QUEEN);
+                        }
 			return true;
 		}
 		return false;
