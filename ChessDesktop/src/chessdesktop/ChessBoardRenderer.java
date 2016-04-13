@@ -1,5 +1,6 @@
 package chessdesktop;
 
+import Chess.ChessAI;
 import Chess.ChessPiece;
 import Chess.ChessPieceImplementation;
 import Chess.PiecePosition;
@@ -48,7 +49,7 @@ public class ChessBoardRenderer {
                     gc.fillRect(boardBounds.getMinX() + p[i].getColumn() * width, boardBounds.getMinY() + p[i].getRow() * height, 
                         boardBounds.getMinX() * 1.1 + (p[i].getColumn() + 1), boardBounds.getMinY() * 0.6 + (p[i].getRow() + 1));
                 }
-            } // un pequeño fallo, al seleccionar las blancas, tapan las fichas negras
+            }
         }
         
 	void drawPiece(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
@@ -147,7 +148,7 @@ public class ChessBoardRenderer {
 				else
 					gc.setFill(Color.YELLOW);
 				gc.fillRect(boardBounds.getMinX() + i * width, boardBounds.getMinY() + j * height, 
-						boardBounds.getMinX() + (i + 1) * width, boardBounds.getMinY() + (j + 1) * height);
+                                    boardBounds.getMinX() + (i + 1) * width, boardBounds.getMinY() + (j + 1) * height);
 			}
 		}
                 
@@ -225,4 +226,12 @@ public class ChessBoardRenderer {
 	boolean containsKing(ChessPiece.Color aColor) {
 		return board.containsKing(aColor);
 	}
+        
+        Chess.ChessBoard getBoard() {
+            return board;
+        }
+        
+        void setCurrentColor(Chess.ChessPiece.Color currentColor) {
+            this.currentColor = currentColor;
+        }
 }
