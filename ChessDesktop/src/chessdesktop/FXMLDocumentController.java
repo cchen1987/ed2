@@ -43,13 +43,18 @@ public class FXMLDocumentController implements Initializable {
 		if (file != null) {
 			Charset charset = Charset.forName("US-ASCII");
                         try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), charset)) {
-                            String s = board.getCurrentColor() + "\n";
+                            String s = "ChessGame\n";
+                            writer.write(s);
+                            s = board.getCurrentColor() + "\n";
                             writer.write(s, 0, s.length());
                             writer.close();
                             board.getBoard().saveToFile(file);
                         }
                         catch (IOException x) {
                                 System.err.format("IOException: %s%n", x);
+                        }
+                        catch (Exception ex) {
+                                System.err.format("Unexpected error: %s%n", ex);
                         }
 		}
 	}
@@ -63,8 +68,12 @@ public class FXMLDocumentController implements Initializable {
 		if (selectedFile != null) {
 			try {
 				Scanner in = new Scanner(selectedFile);
-                                board.setCurrentColor(Chess.ChessPiece.Color.valueOf(in.next()));
-                                board.getBoard().loadFromFile(selectedFile);
+                                String header = in.next();
+                                if (header.equals("ChessGame"))
+                                {
+                                    board.setCurrentColor(Chess.ChessPiece.Color.valueOf(in.next()));
+                                    board.getBoard().loadFromFile(selectedFile);
+                                }
 			} catch (IOException ex) {
 				Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 			}
