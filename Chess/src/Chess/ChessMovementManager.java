@@ -1,7 +1,5 @@
 package Chess;
 
-import Chess.ChessPiece.Color;
-
 public class ChessMovementManager {
 	
 	static PiecePosition[] getAvailablePositionsOfPawn(ChessPiece aPiece, ChessBoard aBoard) {
@@ -69,6 +67,35 @@ public class ChessMovementManager {
 		generateStepMovement(aPiece, aBoard, result, position, 0, 1, 1);
 		generateStepMovement(aPiece, aBoard, result, position, 0, -1, 1);
 		
+                if (!aPiece.wasMoved()) {
+                    boolean leftNotAvailable = false;
+                    boolean rightNotAvailable = false;
+                    int row = aBoard.getPiecePosition(aPiece).getRow();
+                    
+                    ChessPiece leftRook = aBoard.getPieceAt(new PiecePosition(0, row));
+                    if (leftRook != null && leftRook.getType() == ChessPiece.Type.ROOK && 
+                            !leftRook.wasMoved()) {
+                        for (int i = 1; i < 4 && leftNotAvailable; i++) {
+                            if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
+                                leftNotAvailable = true;
+                        }
+                    }
+                    ChessPiece rightRook = aBoard.getPieceAt(new PiecePosition(7, row));
+                    if (rightRook != null && rightRook.getType() == ChessPiece.Type.ROOK && 
+                            !rightRook.wasMoved()) {
+                        for (int i = 5; i < 7 && rightNotAvailable; i++) {
+                            if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
+                                rightNotAvailable = true;
+                        }
+                    }
+                    if (!leftNotAvailable) {
+                        generateStepMovement(aPiece, aBoard, result, position, -2, 0, 1);
+                    }
+                    if (!rightNotAvailable) {
+                        generateStepMovement(aPiece, aBoard, result, position, 2, 0, 1);
+                    }
+                }
+                
 		return result.getResult();
 	}
 
