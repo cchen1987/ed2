@@ -88,15 +88,32 @@ public class ChessBoardImplementation implements ChessBoard {
 	public void removePieceAt(PiecePosition Position) {
 		pieces[getPieceIndex(Position.getColumn(), Position.getRow())] = null;
 	}
-
+        
 	@Override
 	public boolean movePieceTo(ChessPiece Piece, PiecePosition Position) {
 		PiecePosition oldPosition = getPiecePosition(Piece);
 		if (oldPosition != null) {
 			int oldIndex = getPieceIndex(oldPosition);
-			int newIndex = getPieceIndex(Position);
-			pieces[oldIndex] = null;
-			pieces[newIndex] = Piece;
+                        int newIndex = getPieceIndex(Position);
+                        if (pieces[oldIndex].getType() == ChessPiece.Type.KING && !pieces[oldIndex].wasMoved()) {
+                            int difference = oldPosition.getColumn() - Position.getColumn();
+                            int rookIndex = difference < 0 ? getPieceIndex(7, oldPosition.getRow()) : 
+                                    getPieceIndex(0, oldPosition.getRow());
+                            
+                            if (difference < 0 && pieces[rookIndex] != null && pieces[rookIndex].getType() == ChessPiece.Type.ROOK &&
+                                    !pieces[rookIndex].wasMoved()) {
+                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.ROOK);
+                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())].notifyMoved();
+                            }
+                            if (difference > 0 && pieces[rookIndex] != null && pieces[rookIndex].getType() == ChessPiece.Type.ROOK &&
+                                    !pieces[rookIndex].wasMoved()) {
+                                pieces[getPieceIndex(Position.getColumn() + 1, oldPosition.getRow())] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.ROOK);
+                                pieces[getPieceIndex(Position.getColumn() + 1, oldPosition.getRow())].notifyMoved();
+                            }
+                            pieces[rookIndex] = null;
+                        }
+                        pieces[oldIndex] = null;
+                        pieces[newIndex] = Piece;
 			Piece.notifyMoved();
                         if (pieces[newIndex].getType() == ChessPiece.Type.PAWN &&
                                 (Position.getRow() == 0 || Position.getRow() == 7)) {
@@ -144,6 +161,9 @@ public class ChessBoardImplementation implements ChessBoard {
             catch (IOException ex) {
                 System.err.format("IOException: %s%n", ex);
             }
+            catch (Exception ex) {
+                System.err.format("Unexpected error: %s%n", ex);
+            }
             return false;
 	}
 
@@ -155,25 +175,32 @@ public class ChessBoardImplementation implements ChessBoard {
                         pieces[getPieceIndex(column, row)] = null;
                     }
                 Scanner r = new Scanner(location);
-                r.next();
-                int pieceCount = r.nextInt();
-                String text;
-                for (int i = 0; i < pieceCount; i++) {
-                    text = r.next();
-                    int col = Integer.parseInt(text);
-                    text = r.next();
-                    int row = Integer.parseInt(text);
-                    ChessPiece.Color c = ChessPiece.Color.valueOf(r.next());
-                    ChessPiece.Type t = ChessPiece.Type.valueOf(r.next());
-                    pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
-                    String moved = r.next();
-                    if (moved.equals("true"))
-                        pieces[getPieceIndex(col, row)].notifyMoved();
+                String header = r.next();
+                if (header.equals("ChessGame")) {
+                    r.next();
+                    int pieceCount = r.nextInt();
+                    String text;
+                    for (int i = 0; i < pieceCount; i++) {
+                        text = r.next();
+                        int col = Integer.parseInt(text);
+                        text = r.next();
+                        int row = Integer.parseInt(text);
+                        ChessPiece.Color c = ChessPiece.Color.valueOf(r.next());
+                        ChessPiece.Type t = ChessPiece.Type.valueOf(r.next());
+                        pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
+                        String moved = r.next();
+                        if (moved.equals("true"))
+                            pieces[getPieceIndex(col, row)].notifyMoved();
+                    }
+                    return true;
                 }
-                return true;
-            } 
+                return false;
+            }
             catch (FileNotFoundException ex) {
                 System.err.format("IOException: %s%n", ex);
+            }
+            catch (Exception ex) {
+                System.err.format("Unexpected error: %s%n", ex);
             }
             return false;
 	}
