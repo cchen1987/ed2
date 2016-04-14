@@ -2,7 +2,6 @@ package chessdesktop;
 
 import Chess.ChessAI;
 import Chess.ChessPiece;
-import Chess.ChessPieceImplementation;
 import Chess.PiecePosition;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
@@ -120,11 +119,6 @@ public class ChessBoardRenderer {
 		PiecePosition position = board.getPiecePosition(piece);
 		int c = position.getColumn();
 		int r = position.getRow();
-                /*Chess.ChessPiece aPiece = new ChessPieceImplementation(movingPiece.getColor(), ChessPiece.Type.QUEEN);
-                PiecePosition position2 = board.getPiecePosition(movingPiece);
-                if (movingPiece.getType() == Chess.ChessPiece.Type.PAWN && (position2.getRow() == 0 || position2.getRow() == 7)) {
-                    setMovingPiece(aPiece);
-                }*/
 		double width = boardBounds.getWidth() / 8;
 		double height = boardBounds.getHeight() / 8;
 		drawPiece(canvas, piece, boardBounds.getMinX() + c * width, 
@@ -210,14 +204,8 @@ public class ChessBoardRenderer {
 			int row = (int)((y - boardBounds.getMinY()) / height);
 			PiecePosition position = new PiecePosition(column, row);
 			if (movingPiece.canMoveToPosition(position, board) && movingPiece.getColor() == currentColor) {
-                            currentColor = currentColor == ChessPiece.Color.WHITE ? ChessPiece.Color.BLACK : ChessPiece.Color.WHITE;
-                            
-                            /*PiecePosition position2 = board.getPiecePosition(movingPiece);
-                            if (movingPiece.getType() == Chess.ChessPiece.Type.PAWN && (position2.getRow() == 0 || position2.getRow() == 7)) {
-                                Chess.ChessPiece aPiece = new ChessPieceImplementation(movingPiece.getColor(), ChessPiece.Type.QUEEN);
-                                setMovingPiece(aPiece);
-                            }*/
-				return board.movePieceTo(movingPiece, position);
+                                currentColor = currentColor == ChessPiece.Color.WHITE ? ChessPiece.Color.BLACK : ChessPiece.Color.WHITE;
+                            return board.movePieceTo(movingPiece, position);
                         }
 		}
 		return false;
