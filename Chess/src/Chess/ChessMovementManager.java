@@ -67,32 +67,40 @@ public class ChessMovementManager {
 		generateStepMovement(aPiece, aBoard, result, position, 0, 1, 1);
 		generateStepMovement(aPiece, aBoard, result, position, 0, -1, 1);
 		
-                if (!aPiece.wasMoved()) {
-                    boolean leftNotAvailable = false;
-                    boolean rightNotAvailable = false;
-                    int row = aBoard.getPiecePosition(aPiece).getRow();
-                    
-                    ChessPiece leftRook = aBoard.getPieceAt(new PiecePosition(0, row));
-                    if (leftRook != null && leftRook.getType() == ChessPiece.Type.ROOK && 
-                            !leftRook.wasMoved()) {
-                        for (int i = 1; i < 4 && leftNotAvailable; i++) {
+                int row = aBoard.getPiecePosition(aPiece).getRow();
+                
+                if (aBoard.getPieceAt(new PiecePosition(0, row)) != null) {
+                    if (!aPiece.wasMoved() && !aBoard.getPieceAt(new PiecePosition(0, row)).wasMoved() && 
+                            aBoard.getPieceAt(new PiecePosition(0, row)).getType() == ChessPiece.Type.ROOK) {
+                        boolean leftNotAvailable = true;
+                        ChessPiece leftRook = aBoard.getPieceAt(new PiecePosition(0, row));
+                        int leftCount = 0;
+                        for (int i = 1; i < 4; i++) {
                             if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
-                                leftNotAvailable = true;
+                                leftCount++;
+                        }
+
+                        leftNotAvailable = leftCount != 0 ? true : false;
+                        if (!leftNotAvailable) {
+                            generateStepMovement(aPiece, aBoard, result, position, -2, 0, 1);
                         }
                     }
-                    ChessPiece rightRook = aBoard.getPieceAt(new PiecePosition(7, row));
-                    if (rightRook != null && rightRook.getType() == ChessPiece.Type.ROOK && 
-                            !rightRook.wasMoved()) {
-                        for (int i = 5; i < 7 && rightNotAvailable; i++) {
+                }
+                
+                if (aBoard.getPieceAt(new PiecePosition(7, row)) != null) {
+                    if (!aPiece.wasMoved() && !aBoard.getPieceAt(new PiecePosition(7, row)).wasMoved() && 
+                            aBoard.getPieceAt(new PiecePosition(7, row)).getType() == ChessPiece.Type.ROOK) {
+                        int rightCount = 0;
+                        ChessPiece rightRook = aBoard.getPieceAt(new PiecePosition(7, row));
+                        boolean rightNotAvailable = true;
+                        for (int i = 5; i < 7; i++) {
                             if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
-                                rightNotAvailable = true;
+                                rightCount++;
                         }
-                    }
-                    if (!leftNotAvailable) {
-                        generateStepMovement(aPiece, aBoard, result, position, -2, 0, 1);
-                    }
-                    if (!rightNotAvailable) {
-                        generateStepMovement(aPiece, aBoard, result, position, 2, 0, 1);
+                        rightNotAvailable = rightCount != 0 ? true : false;
+                        if (!rightNotAvailable) {
+                            generateStepMovement(aPiece, aBoard, result, position, 2, 0, 1);
+                        }
                     }
                 }
                 
