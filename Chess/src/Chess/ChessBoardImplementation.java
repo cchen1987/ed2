@@ -96,25 +96,26 @@ public class ChessBoardImplementation implements ChessBoard {
 			int oldIndex = getPieceIndex(oldPosition);
                         int newIndex = getPieceIndex(Position);
                         if (pieces[oldIndex].getType() == ChessPiece.Type.KING && !pieces[oldIndex].wasMoved()) {
-                            int difference = oldPosition.getColumn() - Position.getColumn();
-                            int rookIndex = difference < 0 ? getPieceIndex(7, oldPosition.getRow()) : 
-                                    getPieceIndex(0, oldPosition.getRow());
+                            int difference = Position.getColumn() - oldPosition.getColumn();
                             
-                            if (difference < 0 && pieces[rookIndex] != null && pieces[rookIndex].getType() == ChessPiece.Type.ROOK &&
-                                    !pieces[rookIndex].wasMoved()) {
-                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.ROOK);
-                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())].notifyMoved();
-                            }
-                            if (difference > 0 && pieces[rookIndex] != null && pieces[rookIndex].getType() == ChessPiece.Type.ROOK &&
-                                    !pieces[rookIndex].wasMoved()) {
+                            if (difference < -1 && pieces[getPieceIndex(0, oldPosition.getRow())] != null && 
+                                    pieces[getPieceIndex(0, oldPosition.getRow())].getType() == ChessPiece.Type.ROOK &&
+                                    !pieces[getPieceIndex(0, oldPosition.getRow())].wasMoved()) {
                                 pieces[getPieceIndex(Position.getColumn() + 1, oldPosition.getRow())] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.ROOK);
                                 pieces[getPieceIndex(Position.getColumn() + 1, oldPosition.getRow())].notifyMoved();
+                                pieces[getPieceIndex(0, oldPosition.getRow())] = null;
                             }
-                            pieces[rookIndex] = null;
+                            if (difference > 1 && pieces[getPieceIndex(7, oldPosition.getRow())] != null && 
+                                    pieces[getPieceIndex(7, oldPosition.getRow())].getType() == ChessPiece.Type.ROOK &&
+                                    !pieces[getPieceIndex(7, oldPosition.getRow())].wasMoved()) {
+                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.ROOK);
+                                pieces[getPieceIndex(Position.getColumn() - 1, oldPosition.getRow())].notifyMoved();
+                                pieces[getPieceIndex(7, oldPosition.getRow())] = null;
+                            }
                         }
                         pieces[oldIndex] = null;
                         pieces[newIndex] = Piece;
-			Piece.notifyMoved();
+			pieces[newIndex].notifyMoved();
                         if (pieces[newIndex].getType() == ChessPiece.Type.PAWN &&
                                 (Position.getRow() == 0 || Position.getRow() == 7)) {
                             pieces[newIndex] = new ChessPieceImplementation(Piece.getColor(), ChessPiece.Type.QUEEN);
@@ -204,5 +205,4 @@ public class ChessBoardImplementation implements ChessBoard {
             }
             return false;
 	}
-	
 }
