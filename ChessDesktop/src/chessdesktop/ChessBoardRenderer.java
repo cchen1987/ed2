@@ -230,30 +230,32 @@ public class ChessBoardRenderer {
             int bRook = 0, bQueen = 0, bPawn = 0, bBishop = 0, bKnight = 0;
             int wRook = 0, wQueen = 0, wPawn = 0, wBishop = 0, wKnight = 0;
             
-            for (int i = 0; i < pBlack.length; i++) {
-                if (pBlack[i].getType() == ChessPiece.Type.ROOK)
-                    bRook++;
-                if (pBlack[i].getType() == ChessPiece.Type.QUEEN)
-                    bQueen++;
-                if (pBlack[i].getType() == ChessPiece.Type.PAWN)
-                    bPawn++;
-                if (pBlack[i].getType() == ChessPiece.Type.BISHOP)
-                    bBishop++;
-                if (pBlack[i].getType() == ChessPiece.Type.KNIGHT)
-                    bKnight++;
-            }
-            for (int i = 0; i < pWhite.length; i++) {
-                if (pWhite[i].getType() == ChessPiece.Type.ROOK)
-                    wRook++;
-                if (pWhite[i].getType() == ChessPiece.Type.QUEEN)
-                    wQueen++;
-                if (pWhite[i].getType() == ChessPiece.Type.PAWN)
-                    wPawn++;
-                if (pWhite[i].getType() == ChessPiece.Type.BISHOP)
-                    wBishop++;
-                if (pWhite[i].getType() == ChessPiece.Type.KNIGHT)
-                    wKnight++;
-            }
+            if (pBlack != null)
+                for (int i = 0; i < pBlack.length; i++) {
+                    if (pBlack[i].getType() == ChessPiece.Type.ROOK)
+                        bRook++;
+                    if (pBlack[i].getType() == ChessPiece.Type.QUEEN)
+                        bQueen++;
+                    if (pBlack[i].getType() == ChessPiece.Type.PAWN)
+                        bPawn++;
+                    if (pBlack[i].getType() == ChessPiece.Type.BISHOP)
+                        bBishop++;
+                    if (pBlack[i].getType() == ChessPiece.Type.KNIGHT)
+                        bKnight++;
+                }
+            if (pWhite != null)
+                for (int i = 0; i < pWhite.length; i++) {
+                    if (pWhite[i].getType() == ChessPiece.Type.ROOK)
+                        wRook++;
+                    if (pWhite[i].getType() == ChessPiece.Type.QUEEN)
+                        wQueen++;
+                    if (pWhite[i].getType() == ChessPiece.Type.PAWN)
+                        wPawn++;
+                    if (pWhite[i].getType() == ChessPiece.Type.BISHOP)
+                        wBishop++;
+                    if (pWhite[i].getType() == ChessPiece.Type.KNIGHT)
+                        wKnight++;
+                }
             
             if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
                     wPawn == 0 && bBishop == 0 && wBishop == 0 && bKnight == 0 &&
@@ -262,7 +264,7 @@ public class ChessBoardRenderer {
             else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
                     wPawn == 0 && bKnight == 0 && wKnight == 0 && ((bBishop == 1 && wBishop == 0) ||
                     (bBishop == 0 && wBishop == 1)))
-                    return true;
+                return true;
             else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
                     wPawn == 0 && bBishop == 0 && wBishop == 0 && ((bKnight == 1 && wKnight == 0) ||
                     (bKnight == 0 && wKnight == 1)))
