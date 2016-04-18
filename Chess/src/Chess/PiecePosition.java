@@ -49,9 +49,10 @@ public class PiecePosition {
          * @param row 
          */
 	public PiecePosition(int column, int row) {
+            if (isAvailable(column, row)) {
 		this.column = column;
 		this.row = row;
-                
+            }
 	}
 	
 	/**
@@ -104,7 +105,7 @@ public class PiecePosition {
 	
 	/**
          * Este método devuelve una copia de la posición actual
-         * @return 
+         * @return PiecePosition
          */
 	public PiecePosition clone() {
 		return new PiecePosition(column, row);
