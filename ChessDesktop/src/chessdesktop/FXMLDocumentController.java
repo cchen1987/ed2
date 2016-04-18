@@ -107,6 +107,8 @@ public class FXMLDocumentController implements Initializable {
 					else
 						label.setText("Ganan las negras");
 				}
+                                else if (board.isTie())
+                                    label.setText("Empate!");
 			}
 		});
 	}	

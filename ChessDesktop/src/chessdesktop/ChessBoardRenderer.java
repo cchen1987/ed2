@@ -42,7 +42,7 @@ public class ChessBoardRenderer {
             GraphicsContext gc = canvas.getGraphicsContext2D();
             Bounds boardBounds = getBoardBounds(canvas);
             PiecePosition[] p = piece.getAvailablePositions(board);
-            if (movingPiece.getColor() == currentColor) {
+            if (piece.getColor() == currentColor) {
                 for (int i = 0; i < p.length; i++) {
                     gc.setFill(Color.BURLYWOOD);
                     gc.fillRect(boardBounds.getMinX() + p[i].getColumn() * width, boardBounds.getMinY() + p[i].getRow() * height, 
@@ -53,8 +53,8 @@ public class ChessBoardRenderer {
         
 	void drawPiece(Canvas canvas, Chess.ChessPiece piece, double minX, double minY, double width, double height) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-                if (piece == movingPiece && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE)) {
-                        gc.setFill(Color.GREY);
+                if (piece == movingPiece && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE) && !isTie()) {
+                    gc.setFill(Color.GREY);
                 }
                 else if (piece.getColor() == Chess.ChessPiece.Color.BLACK)
                         gc.setFill(Color.BLACK);
@@ -122,7 +122,7 @@ public class ChessBoardRenderer {
 		double width = boardBounds.getWidth() / 8;
 		double height = boardBounds.getHeight() / 8;
 		drawPiece(canvas, piece, boardBounds.getMinX() + c * width, 
-				boardBounds.getMinY() + r * height, width, height);
+                    boardBounds.getMinY() + r * height, width, height);
 	}
 
 	void draw(Canvas canvas) {
@@ -146,7 +146,8 @@ public class ChessBoardRenderer {
 			}
 		}
                 
-                if (movingPiece != null && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE))
+                if (movingPiece != null && containsKing(ChessPiece.Color.BLACK) && containsKing(ChessPiece.Color.WHITE) &&
+                        !isTie())
                     drawAvailablePositions(canvas, movingPiece, width, height);
                 
 		for (ChessPiece piece : board.getPieces())
@@ -197,7 +198,7 @@ public class ChessBoardRenderer {
                 
 		Bounds boardBounds = getBoardBounds(canvas);
 		if (boardBounds.contains(x, y) && containsKing(ChessPiece.Color.WHITE) &&
-                            containsKing(ChessPiece.Color.WHITE)) {
+                            containsKing(ChessPiece.Color.WHITE) && !isTie()) {
 			double width = boardBounds.getWidth() / 8;
 			double height = boardBounds.getHeight() / 8;
 			int column = (int)((x - boardBounds.getMinX()) / width);
@@ -221,5 +222,55 @@ public class ChessBoardRenderer {
         
         void setCurrentColor(Chess.ChessPiece.Color currentColor) {
             this.currentColor = currentColor;
+        }
+        
+        boolean isTie() {
+            ChessPiece[] pBlack = board.getPieces(ChessPiece.Color.BLACK);
+            ChessPiece[] pWhite = board.getPieces(ChessPiece.Color.WHITE);
+            int bRook = 0, bQueen = 0, bPawn = 0, bBishop = 0, bKnight = 0;
+            int wRook = 0, wQueen = 0, wPawn = 0, wBishop = 0, wKnight = 0;
+            
+            for (int i = 0; i < pBlack.length; i++) {
+                if (pBlack[i].getType() == ChessPiece.Type.ROOK)
+                    bRook++;
+                if (pBlack[i].getType() == ChessPiece.Type.QUEEN)
+                    bQueen++;
+                if (pBlack[i].getType() == ChessPiece.Type.PAWN)
+                    bPawn++;
+                if (pBlack[i].getType() == ChessPiece.Type.BISHOP)
+                    bBishop++;
+                if (pBlack[i].getType() == ChessPiece.Type.KNIGHT)
+                    bKnight++;
+            }
+            for (int i = 0; i < pWhite.length; i++) {
+                if (pWhite[i].getType() == ChessPiece.Type.ROOK)
+                    wRook++;
+                if (pWhite[i].getType() == ChessPiece.Type.QUEEN)
+                    wQueen++;
+                if (pWhite[i].getType() == ChessPiece.Type.PAWN)
+                    wPawn++;
+                if (pWhite[i].getType() == ChessPiece.Type.BISHOP)
+                    wBishop++;
+                if (pWhite[i].getType() == ChessPiece.Type.KNIGHT)
+                    wKnight++;
+            }
+            
+            if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
+                    wPawn == 0 && bBishop == 0 && wBishop == 0 && bKnight == 0 &&
+                    wKnight == 0)
+                return true;
+            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
+                    wPawn == 0 && bKnight == 0 && wKnight == 0 && ((bBishop == 1 && wBishop == 0) ||
+                    (bBishop == 0 && wBishop == 1)))
+                    return true;
+            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
+                    wPawn == 0 && bBishop == 0 && wBishop == 0 && ((bKnight == 1 && wKnight == 0) ||
+                    (bKnight == 0 && wKnight == 1)))
+                return true;
+            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
+                    wPawn == 0 && bKnight == 0 && wKnight == 0 && bBishop == 1 && wBishop == 1)
+                return true;
+            
+            return false;
         }
 }
