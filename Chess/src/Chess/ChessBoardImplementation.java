@@ -158,7 +158,7 @@ public class ChessBoardImplementation implements ChessBoard {
                     }
                 }
                 return true;
-            } 
+            }
             catch (IOException ex) {
                 System.err.format("IOException: %s%n", ex);
             }
