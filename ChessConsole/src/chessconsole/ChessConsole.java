@@ -55,7 +55,7 @@ public class ChessConsole {
 		for (int column = 0; column < 8; column++)
 			System.out.print(" " + (column + 1) + " ");
 		System.out.println();
-		System.out.print("-----------------------------------------------------");
+		System.out.println("-----------------------------------------------------");
     }
     
     public static void main(String[] args) {
@@ -64,7 +64,7 @@ public class ChessConsole {
         ChessAI ai = createArtificialIntelligenceLogic();
         ChessAI player = createPlayerLogic();
 
-        System.out.println("Vienvenido al juego del ajedrez, tu llevas las blancas");
+        System.out.println("Bienvenido al juego del ajedrez, tu llevas las blancas");
 		
         while (table.containsKing(ChessPiece.Color.BLACK) && table.containsKing(ChessPiece.Color.WHITE)) {
 			
