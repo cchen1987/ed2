@@ -235,35 +235,27 @@ public class ChessBoardRenderer {
             if (pBlack != null)
                 for (int i = 0; i < pBlack.length; i++) {
                     switch (pBlack[i].getType()) {
-                        case ROOK:
-                            return false;
-                        case QUEEN:
-                            return false;
-                        case PAWN:
-                            return false;
                         case BISHOP:
                             bBishop++;
                             break;
                         case KNIGHT:
                             bKnight++;
                             break;
+                        default:
+                            return false;
                     }
                 }
             if (pWhite != null)
                 for (int i = 0; i < pWhite.length; i++) {
                     switch (pWhite[i].getType()) {
-                        case ROOK:
-                            return false;
-                        case QUEEN:
-                            return false;
-                        case PAWN:
-                            return false;
                         case BISHOP:
                             wBishop++;
                             break;
                         case KNIGHT:
                             wKnight++;
                             break;
+                        default:
+                            return false;
                     }
                 }
             if (bBishop == 0 && wBishop == 0 && bKnight == 0 && wKnight == 0)
