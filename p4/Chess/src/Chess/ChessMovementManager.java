@@ -72,15 +72,14 @@ public class ChessMovementManager {
                 if (aBoard.getPieceAt(new PiecePosition(0, row)) != null) {
                     if (!aPiece.wasMoved() && !aBoard.getPieceAt(new PiecePosition(0, row)).wasMoved() && 
                             aBoard.getPieceAt(new PiecePosition(0, row)).getType() == ChessPiece.Type.ROOK) {
-                        boolean leftNotAvailable = true;
-                        ChessPiece leftRook = aBoard.getPieceAt(new PiecePosition(0, row));
                         int leftCount = 0;
+                        ChessPiece leftRook = aBoard.getPieceAt(new PiecePosition(0, row));
+                        
                         for (int i = 1; i < 4; i++) {
                             if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
                                 leftCount++;
                         }
-
-                        leftNotAvailable = leftCount != 0 ? true : false;
+                        boolean leftNotAvailable = leftCount != 0 ? true : false;
                         if (!leftNotAvailable) {
                             generateStepMovement(aPiece, aBoard, result, position, -2, 0, 1);
                         }
@@ -92,12 +91,12 @@ public class ChessMovementManager {
                             aBoard.getPieceAt(new PiecePosition(7, row)).getType() == ChessPiece.Type.ROOK) {
                         int rightCount = 0;
                         ChessPiece rightRook = aBoard.getPieceAt(new PiecePosition(7, row));
-                        boolean rightNotAvailable = true;
+                        
                         for (int i = 5; i < 7; i++) {
                             if (aBoard.getPieceAt(new PiecePosition(i, row)) != null)
                                 rightCount++;
                         }
-                        rightNotAvailable = rightCount != 0 ? true : false;
+                        boolean rightNotAvailable = rightCount != 0 ? true : false;
                         if (!rightNotAvailable) {
                             generateStepMovement(aPiece, aBoard, result, position, 2, 0, 1);
                         }
