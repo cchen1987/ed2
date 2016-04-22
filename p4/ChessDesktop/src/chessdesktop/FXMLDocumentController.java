@@ -33,6 +33,7 @@ public class FXMLDocumentController implements Initializable {
 	private void handleButtonAction(ActionEvent event) {
 		board = new ChessBoardRenderer();
 		board.draw(canvas);
+                label.setText("");
 	}
 	
 	@FXML
