@@ -14,7 +14,7 @@ public class ChessRandomAI implements ChessAI {
 			PiecePosition[] positions = piece.getAvailablePositions(aTable);
 			if (positions.length > 0) {
 				PiecePosition position = positions[random.nextInt(positions.length)];
-				if (aTable.movePieceTo(piece, position))
+				if (position != null && aTable.movePieceTo(piece, position))
 					return true;
 			}
 		}
