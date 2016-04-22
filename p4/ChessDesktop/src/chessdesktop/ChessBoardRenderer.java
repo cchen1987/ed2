@@ -2,6 +2,7 @@ package chessdesktop;
 
 import Chess.ChessAI;
 import Chess.ChessPiece;
+import Chess.ChessRandomAI;
 import Chess.PiecePosition;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
@@ -17,6 +18,7 @@ public class ChessBoardRenderer {
 	private final Chess.ChessBoard board = new Chess.ChessBoardImplementation();
 	private Chess.ChessPiece movingPiece;
 	private Chess.ChessPiece.Color currentColor = ChessPiece.Color.WHITE;
+        private Chess.ChessAI AI = new ChessRandomAI();
         
 	static private void drawCrown(GraphicsContext aContext, double minX, double minY, double width, double height) {
 		double maxX = minX + width;
@@ -33,10 +35,6 @@ public class ChessBoardRenderer {
 		double[] y = {minY, maxY, maxY};
 		aContext.fillPolygon(x, y, 3);
 	}
-
-        ChessPiece.Color getCurrentColor() {
-            return currentColor;
-        }
         
 	void drawAvailablePositions(Canvas canvas, Chess.ChessPiece piece, double width, double height) {
             GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -223,56 +221,61 @@ public class ChessBoardRenderer {
         void setCurrentColor(Chess.ChessPiece.Color currentColor) {
             this.currentColor = currentColor;
         }
+
+        ChessPiece.Color getCurrentColor() {
+            return currentColor;
+        }
         
         boolean isTie() {
             ChessPiece[] pBlack = board.getPieces(ChessPiece.Color.BLACK);
             ChessPiece[] pWhite = board.getPieces(ChessPiece.Color.WHITE);
-            int bRook = 0, bQueen = 0, bPawn = 0, bBishop = 0, bKnight = 0;
-            int wRook = 0, wQueen = 0, wPawn = 0, wBishop = 0, wKnight = 0;
+            int bBishop = 0, bKnight = 0;
+            int wBishop = 0, wKnight = 0;
             
             if (pBlack != null)
                 for (int i = 0; i < pBlack.length; i++) {
-                    if (pBlack[i].getType() == ChessPiece.Type.ROOK)
-                        bRook++;
-                    if (pBlack[i].getType() == ChessPiece.Type.QUEEN)
-                        bQueen++;
-                    if (pBlack[i].getType() == ChessPiece.Type.PAWN)
-                        bPawn++;
-                    if (pBlack[i].getType() == ChessPiece.Type.BISHOP)
-                        bBishop++;
-                    if (pBlack[i].getType() == ChessPiece.Type.KNIGHT)
-                        bKnight++;
+                    switch (pBlack[i].getType()) {
+                        case ROOK:
+                            return false;
+                        case QUEEN:
+                            return false;
+                        case PAWN:
+                            return false;
+                        case BISHOP:
+                            bBishop++;
+                            break;
+                        case KNIGHT:
+                            bKnight++;
+                            break;
+                    }
                 }
             if (pWhite != null)
                 for (int i = 0; i < pWhite.length; i++) {
-                    if (pWhite[i].getType() == ChessPiece.Type.ROOK)
-                        wRook++;
-                    if (pWhite[i].getType() == ChessPiece.Type.QUEEN)
-                        wQueen++;
-                    if (pWhite[i].getType() == ChessPiece.Type.PAWN)
-                        wPawn++;
-                    if (pWhite[i].getType() == ChessPiece.Type.BISHOP)
-                        wBishop++;
-                    if (pWhite[i].getType() == ChessPiece.Type.KNIGHT)
-                        wKnight++;
+                    switch (pWhite[i].getType()) {
+                        case ROOK:
+                            return false;
+                        case QUEEN:
+                            return false;
+                        case PAWN:
+                            return false;
+                        case BISHOP:
+                            wBishop++;
+                            break;
+                        case KNIGHT:
+                            wKnight++;
+                            break;
+                    }
                 }
-            
-            if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
-                    wPawn == 0 && bBishop == 0 && wBishop == 0 && bKnight == 0 &&
-                    wKnight == 0)
+            if (bBishop == 0 && wBishop == 0 && bKnight == 0 && wKnight == 0)
                 return true;
-            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
-                    wPawn == 0 && bKnight == 0 && wKnight == 0 && ((bBishop == 1 && wBishop == 0) ||
+            else if (bKnight == 0 && wKnight == 0 && ((bBishop == 1 && wBishop == 0) ||
                     (bBishop == 0 && wBishop == 1)))
                 return true;
-            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
-                    wPawn == 0 && bBishop == 0 && wBishop == 0 && ((bKnight == 1 && wKnight == 0) ||
+            else if (bBishop == 0 && wBishop == 0 && ((bKnight == 1 && wKnight == 0) ||
                     (bKnight == 0 && wKnight == 1)))
                 return true;
-            else if (bRook == 0 && wRook == 0 && bQueen == 0 && wQueen == 0 && bPawn == 0 &&
-                    wPawn == 0 && bKnight == 0 && wKnight == 0 && bBishop == 1 && wBishop == 1)
+            else if (bKnight == 0 && wKnight == 0 && bBishop == 1 && wBishop == 1)
                 return true;
-            
             return false;
         }
 }
