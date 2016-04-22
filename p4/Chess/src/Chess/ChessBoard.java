@@ -51,7 +51,7 @@ public interface ChessBoard {
     boolean movePieceTo(ChessPiece piece, PiecePosition position);
 	
 	/**
-	 * Esta función dice si en el talbero hay un rey de un determinado color.
+	 * Esta función dice si en el tablero hay un rey de un determinado color.
 	 * @param pieceColor Color of the king.
 	 * @return true if the king exists, false otherwise.
 	 */
