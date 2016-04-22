@@ -3,16 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessBoardImplementation.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessMovementHelper.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessUtils.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessMovementManager.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessPiece.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessPieceImplementation.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessBoard.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/PiecePosition.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessRandomAI.java</file>
-            <file>file:/C:/Users/Profe/Desktop/practicas_ed/p4/project/Chess/src/Chess/ChessAI.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessBoardImplementation.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessRandomAI.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessMovementHelper.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/PiecePosition.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessUtils.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessPieceImplementation.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessPiece.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessBoard.java</file>
+            <file>file:/C:/Users/chao/Documents/NetBeansProjects/chess/Chess/src/Chess/ChessMovementManager.java</file>
         </group>
     </open-files>
 </project-private>
