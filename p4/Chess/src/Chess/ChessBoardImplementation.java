@@ -146,7 +146,6 @@ public class ChessBoardImplementation implements ChessBoard {
 	@Override
 	public boolean saveToFile(File location) {
             try (FileWriter file = new FileWriter(location, true)) {
-                file.write(getPieceCount() + "\n");
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (pieces[getPieceIndex(j, i)] != null) {
@@ -179,13 +178,10 @@ public class ChessBoardImplementation implements ChessBoard {
                 String header = r.next();
                 if (header.equals("ChessGame")) {
                     r.next();
-                    int pieceCount = r.nextInt();
                     String text;
-                    for (int i = 0; i < pieceCount; i++) {
-                        text = r.next();
-                        int col = Integer.parseInt(text);
-                        text = r.next();
-                        int row = Integer.parseInt(text);
+                    while (r.hasNext()) {
+                        int col = r.nextInt();
+                        int row = r.nextInt();
                         ChessPiece.Color c = ChessPiece.Color.valueOf(r.next());
                         ChessPiece.Type t = ChessPiece.Type.valueOf(r.next());
                         pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
