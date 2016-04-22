@@ -20,7 +20,8 @@ public class ChessMovementHelper {
 	 * @param aBoard
 	 * @param columnCount
 	 * @param rowCount
-	 * @return La pieza que ha impedido la inserción
+         * @return true si se ha podido insertar la nueva posicion, false si no se
+         * pudo
 	 */
 	public boolean addPositionWithDisplacementIfAvaiable(PiecePosition aPosition, 
 			ChessBoard aBoard, int columnCount, int rowCount) {
