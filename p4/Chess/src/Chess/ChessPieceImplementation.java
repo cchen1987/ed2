@@ -33,19 +33,21 @@ public class ChessPieceImplementation implements ChessPiece {
 
     @Override
     public PiecePosition[] getAvailablePositions(ChessBoard aBoard) {
-        if (this.type == Type.PAWN)
-            return ChessMovementManager.getAvailablePositionsOfPawn(this, aBoard);
-        if (this.type == Type.KING)
-            return ChessMovementManager.getAvailablePositionsOfKing(this, aBoard);
-        if (this.type == Type.BISHOP)
-            return ChessMovementManager.getAvailablePositionsOfBishop(this, aBoard);
-        if (this.type == Type.KNIGHT)
-            return ChessMovementManager.getAvailablePositionsOfKnight(this, aBoard);
-        if (this.type == Type.QUEEN)
-            return ChessMovementManager.getAvailablePositionsOfQueen(this, aBoard);
-        if (this.type == Type.ROOK)
-            return ChessMovementManager.getAvailablePositionsOfRook(this, aBoard);
-        return null;
+        switch (this.getType()) {
+            case PAWN:
+                return ChessMovementManager.getAvailablePositionsOfPawn(this, aBoard);
+            case KING:
+                return ChessMovementManager.getAvailablePositionsOfKing(this, aBoard);
+            case BISHOP:
+                return ChessMovementManager.getAvailablePositionsOfBishop(this, aBoard);
+            case KNIGHT:
+                return ChessMovementManager.getAvailablePositionsOfKnight(this, aBoard);
+            case QUEEN:
+                return ChessMovementManager.getAvailablePositionsOfQueen(this, aBoard);
+            case ROOK:
+                return ChessMovementManager.getAvailablePositionsOfRook(this, aBoard);
+            default:
+                return null;
+        }
     }
 }
-
