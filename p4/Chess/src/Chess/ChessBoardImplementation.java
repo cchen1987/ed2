@@ -193,12 +193,12 @@ public class ChessBoardImplementation implements ChessBoard {
                         pieceType = r.next();
                         moved = r.next();
                         count++;
-                        if (!pieceColor.equals("BLACK") && !pieceColor.equals("WHITE") &&
-                                !isValidNumber(rows) && !isValidNumber(cols) && !moved.equals("true") && 
-                                !moved.equals("false") && !pieceType.equals("KING") &&
+                        if ((!pieceColor.equals("BLACK") && !pieceColor.equals("WHITE")) ||
+                                !isValidNumber(rows) || !isValidNumber(cols) || (!moved.equals("true") && 
+                                !moved.equals("false")) || (!pieceType.equals("KING") &&
                                 !pieceType.equals("QUEEN") && !pieceType.equals("ROOK") && 
                                 !pieceType.equals("BISHOP") && !pieceType.equals("KNIGHT")&& 
-                                !pieceType.equals("PAWN")) {
+                                !pieceType.equals("PAWN"))) {
                             return false;
                         }
                     }
