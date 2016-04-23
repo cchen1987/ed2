@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ChessDesktop.jar" size="10804" download="eager" />
-    <jar href="lib\Chess.jar" size="27324" download="eager" />
+    <jar href="ChessDesktop.jar" size="10919" download="eager" />
+    <jar href="lib\Chess.jar" size="28422" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ChessDesktop" >
     <param name="requiredFXVersion" value="8.0+"/>

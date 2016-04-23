@@ -143,6 +143,16 @@ public class ChessBoardImplementation implements ChessBoard {
             return count;
         }
         
+        public boolean isValidNumber(String n) {
+            try {
+                int num = Integer.parseInt(n);
+                return num >= 0 && num < 8 ? true : false;
+            }
+            catch (Exception ex){
+                return false;
+            }
+        }
+        
 	@Override
 	public boolean saveToFile(File location) {
             try (FileWriter file = new FileWriter(location, true)) {
@@ -150,9 +160,9 @@ public class ChessBoardImplementation implements ChessBoard {
                     for (int j = 0; j < 8; j++) {
                         if (pieces[getPieceIndex(j, i)] != null) {
                             file.write(j + " " + i+ " " +
-                                    pieces[getPieceIndex(j, i)].getColor() + " " +
-                                    pieces[getPieceIndex(j, i)].getType() + " " +
-                                    pieces[getPieceIndex(j, i)].wasMoved() + "\n");
+                                pieces[getPieceIndex(j, i)].getColor() + " " +
+                                pieces[getPieceIndex(j, i)].getType() + " " +
+                                pieces[getPieceIndex(j, i)].wasMoved() + "\n");
                         }
                     }
                 }
@@ -166,26 +176,66 @@ public class ChessBoardImplementation implements ChessBoard {
             }
             return false;
 	}
-
+        
+        private boolean isValidFile (File location) {
+            try {
+                int count = 0;
+                Scanner r = new Scanner(location);
+                String header = r.next();
+                String color = r.next();
+                if (header.equals("ChessGame") && (color.equals("BLACK") ||
+                        color.equals("WHITE"))) {
+                    String cols, rows, pieceColor, pieceType, moved;
+                    do {
+                        cols = r.next();
+                        rows = r.next();
+                        pieceColor = r.next();
+                        pieceType = r.next();
+                        moved = r.next();
+                        count++;
+                        if (!pieceColor.equals("BLACK") && !pieceColor.equals("WHITE") &&
+                                !isValidNumber(rows) && !isValidNumber(cols) && !moved.equals("true") && 
+                                !moved.equals("false") && !pieceType.equals("KING") &&
+                                !pieceType.equals("QUEEN") && !pieceType.equals("ROOK") && 
+                                !pieceType.equals("BISHOP") && !pieceType.equals("KNIGHT")&& 
+                                !pieceType.equals("PAWN")) {
+                            return false;
+                        }
+                    }
+                    while (r.hasNext());
+                    return count > 32 ? false : true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (FileNotFoundException ex) {
+                System.err.format("IOException: %s%n", ex);
+            }
+            catch (Exception ex) {
+                System.err.format("Unexpected error: %s%n", ex);
+            }
+            return false;
+        }
+        
 	@Override
 	public boolean loadFromFile(File location) {
             try {
-                for (int row = 0; row < 8; row++)
-                    for (int column = 0; column < 8; column++) {
-                        pieces[getPieceIndex(column, row)] = null;
-                    }
-                Scanner r = new Scanner(location);
-                String header = r.next();
-                if (header.equals("ChessGame")) {
-                    r.next();
-                    String text;
+                if (isValidFile(location)) {
+                    for (int row = 0; row < 8; row++)
+                        for (int column = 0; column < 8; column++) {
+                            pieces[getPieceIndex(column, row)] = null;
+                        }
+                    Scanner r = new Scanner(location);
+                    r.next(); // Header checked above
+                    r.next(); // Color checked above
                     while (r.hasNext()) {
                         int col = r.nextInt();
                         int row = r.nextInt();
                         ChessPiece.Color c = ChessPiece.Color.valueOf(r.next());
                         ChessPiece.Type t = ChessPiece.Type.valueOf(r.next());
-                        pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
                         String moved = r.next();
+                        pieces[getPieceIndex(col, row)] = new ChessPieceImplementation(c, t);
                         if (moved.equals("true"))
                             pieces[getPieceIndex(col, row)].notifyMoved();
                     }

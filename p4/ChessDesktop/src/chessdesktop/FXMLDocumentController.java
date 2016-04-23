@@ -70,10 +70,19 @@ public class FXMLDocumentController implements Initializable {
 			try {
 				Scanner in = new Scanner(selectedFile);
                                 String header = in.next();
-                                if (header.equals("ChessGame"))
-                                {
-                                    board.setCurrentColor(Chess.ChessPiece.Color.valueOf(in.next()));
-                                    board.getBoard().loadFromFile(selectedFile);
+                                String color = in.next();
+                                if (header.equals("ChessGame") && (color.equals("BLACK") ||
+                                        color.equals("WHITE"))) {
+                                    if (board.getBoard().loadFromFile(selectedFile)) {
+                                        board.setCurrentColor(Chess.ChessPiece.Color.valueOf(color));
+                                        label.setText("");
+                                    }
+                                    else {
+                                        label.setText("Archivo no válido.");
+                                    }
+                                }
+                                else {
+                                    label.setText("Archivo no válido.");
                                 }
 			} catch (IOException ex) {
 				Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
