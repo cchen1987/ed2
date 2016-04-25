@@ -30,7 +30,7 @@ public class ChessConsole {
 			System.out.print(" " + (column + 1) + " ");
 		System.out.println();
 			
-		for (int row = 7; row >= 0; row--) {
+		for (int row = 0; row < 8; row++) {
 			System.out.print("[" + (row + 1) + "]");
 			for (int column = 0; column < 8; column++) {
 				position.setValues(column, row);
